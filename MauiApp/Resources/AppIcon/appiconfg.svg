@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- Camera icon for foreground -->
+  <rect x="8" y="28" width="112" height="80" rx="10" fill="white"/>
+  <!-- Lens -->
+  <circle cx="64" cy="68" r="26" fill="#2B6CB0"/>
+  <circle cx="64" cy="68" r="18" fill="white"/>
+  <circle cx="64" cy="68" r="10" fill="#1A365D"/>
+  <!-- Viewfinder bump -->
+  <rect x="44" y="16" width="40" height="16" rx="5" fill="white"/>
+  <!-- GPS pin overlay -->
+  <circle cx="96" cy="36" r="14" fill="#2F855A"/>
+  <path d="M96 26 C90 26 86 30 86 35 C86 42 96 50 96 50 C96 50 106 42 106 35 C106 30 102 26 96 26 Z" fill="white"/>
+  <circle cx="96" cy="35" r="4" fill="#2F855A"/>
+</svg>

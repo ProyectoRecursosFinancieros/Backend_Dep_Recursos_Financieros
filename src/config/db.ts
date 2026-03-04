@@ -1,6 +1,7 @@
 import { Sequelize } from "sequelize-typescript";
 import colors from "colors";
 import dotenv from "dotenv";
+import { Photo } from "../models/Photo";
 
 dotenv.config();
 
@@ -13,6 +14,7 @@ const database = new Sequelize(
     port: Number(process.env.DB_PORT),
     dialect: "mysql",
     ssl: true,
+    models: [Photo],
   },
 );
 

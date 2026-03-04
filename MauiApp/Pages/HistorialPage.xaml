@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:FotoUbicacion.Models"
+             x:Class="FotoUbicacion.Pages.HistorialPage"
+             Title="Historial">
+
+    <Grid RowDefinitions="*,Auto">
+
+        <CollectionView x:Name="PhotoList"
+                        Grid.Row="0"
+                        Margin="12"
+                        SelectionMode="None">
+            <CollectionView.EmptyView>
+                <Label Text="No hay registros guardados."
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"
+                       TextColor="Gray"
+                       Margin="20" />
+            </CollectionView.EmptyView>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:PhotoLocation">
+                    <Frame BorderColor="#CBD5E0" CornerRadius="10"
+                           Padding="10" Margin="0,4">
+                        <Grid ColumnDefinitions="100,*,Auto" ColumnSpacing="10">
+                            <!-- Miniatura -->
+                            <Frame Grid.Column="0" CornerRadius="8" Padding="0"
+                                   IsClippedToBounds="True" HeightRequest="80">
+                                <Image Source="{Binding ImagePath}"
+                                       Aspect="AspectFill" />
+                            </Frame>
+                            <!-- Info -->
+                            <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="2">
+                                <Label Text="{Binding CapturedAt, StringFormat='{0:dd/MM/yyyy HH:mm}'}"
+                                       FontAttributes="Bold" FontSize="13" />
+                                <Label Text="{Binding Latitude, StringFormat='Lat: {0:F5}'}"
+                                       FontSize="12" TextColor="Gray" />
+                                <Label Text="{Binding Longitude, StringFormat='Lng: {0:F5}'}"
+                                       FontSize="12" TextColor="Gray" />
+                                <Label Text="{Binding Address}"
+                                       FontSize="11" TextColor="#4A5568"
+                                       LineBreakMode="TailTruncation" />
+                            </VerticalStackLayout>
+                            <!-- Borrar -->
+                            <Button Grid.Column="2"
+                                    Text="🗑"
+                                    BackgroundColor="Transparent"
+                                    TextColor="Red"
+                                    FontSize="18"
+                                    VerticalOptions="Center"
+                                    CommandParameter="{Binding .}"
+                                    Clicked="OnDeleteClicked" />
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <Label Grid.Row="1"
+               x:Name="CountLabel"
+               Text="0 registros"
+               HorizontalOptions="Center"
+               Margin="8"
+               TextColor="Gray"
+               FontSize="12" />
+
+    </Grid>
+
+</ContentPage>

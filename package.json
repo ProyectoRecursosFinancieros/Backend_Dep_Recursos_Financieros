@@ -4,7 +4,8 @@
     "colors": "^1.4.0",
     "express": "^5.2.1",
     "nodemon": "^3.1.11",
-    "tsx": "^4.21.0"
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
   },
   "scripts": {
     "dev": "nodemon --exec tsx src/index.ts"

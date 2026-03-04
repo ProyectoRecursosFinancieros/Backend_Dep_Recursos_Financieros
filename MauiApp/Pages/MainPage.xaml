@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:maps="clr-namespace:Microsoft.Maui.Controls.Maps;assembly=Microsoft.Maui.Controls.Maps"
+             x:Class="FotoUbicacion.Pages.MainPage"
+             Title="FotoUbicación">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="16" Padding="20">
+
+            <!-- Foto capturada -->
+            <Frame BorderColor="#2B6CB0" CornerRadius="12" Padding="0"
+                   HeightRequest="250" IsClippedToBounds="True">
+                <Image x:Name="PreviewImage"
+                       Aspect="AspectFill"
+                       Source="photo_placeholder.png" />
+            </Frame>
+
+            <!-- Botones acción -->
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                <Button Grid.Column="0"
+                        Text="📷 Tomar Foto"
+                        BackgroundColor="#2B6CB0"
+                        TextColor="White"
+                        CornerRadius="8"
+                        Clicked="OnTakePhotoClicked" />
+                <Button Grid.Column="1"
+                        Text="📍 Obtener GPS"
+                        BackgroundColor="#2F855A"
+                        TextColor="White"
+                        CornerRadius="8"
+                        Clicked="OnGetLocationClicked" />
+            </Grid>
+
+            <!-- Información GPS -->
+            <Frame BorderColor="#CBD5E0" CornerRadius="8" Padding="12">
+                <VerticalStackLayout Spacing="4">
+                    <Label Text="📌 Ubicación GPS" FontAttributes="Bold" FontSize="14" />
+                    <Label x:Name="LatLabel" Text="Latitud: —" FontSize="13" />
+                    <Label x:Name="LngLabel" Text="Longitud: —" FontSize="13" />
+                    <Label x:Name="AddressLabel" Text="Dirección: —" FontSize="13"
+                           LineBreakMode="WordWrap" />
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Mapa -->
+            <Frame BorderColor="#CBD5E0" CornerRadius="8" Padding="0"
+                   HeightRequest="220" IsClippedToBounds="True">
+                <maps:Map x:Name="LocationMap"
+                          IsScrollEnabled="True"
+                          IsZoomEnabled="True" />
+            </Frame>
+
+            <!-- Guardar -->
+            <Button Text="💾 Guardar Registro"
+                    BackgroundColor="#744210"
+                    TextColor="White"
+                    CornerRadius="8"
+                    FontAttributes="Bold"
+                    Clicked="OnSaveClicked" />
+
+            <!-- Indicador de actividad -->
+            <ActivityIndicator x:Name="BusyIndicator"
+                               IsRunning="False"
+                               IsVisible="False"
+                               Color="#2B6CB0" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

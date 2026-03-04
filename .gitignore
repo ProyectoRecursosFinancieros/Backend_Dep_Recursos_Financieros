@@ -1,2 +1,9 @@
 node_modules
 .env
+
+# .NET MAUI build artifacts
+MauiApp/bin/
+MauiApp/obj/
+MauiApp/*.user
+MauiApp/.vs/
+*.DS_Store

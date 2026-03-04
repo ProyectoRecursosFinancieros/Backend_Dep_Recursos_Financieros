@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200">
+  <rect width="300" height="200" fill="#EDF2F7"/>
+  <rect x="80" y="40" width="140" height="120" rx="12" fill="#CBD5E0"/>
+  <!-- Camera icon -->
+  <rect x="100" y="55" width="100" height="72" rx="8" fill="#718096"/>
+  <circle cx="150" cy="91" r="22" fill="#EDF2F7"/>
+  <circle cx="150" cy="91" r="14" fill="#4A5568"/>
+  <rect x="128" y="44" width="44" height="16" rx="5" fill="#718096"/>
+  <text x="150" y="175" font-family="sans-serif" font-size="14"
+        fill="#718096" text-anchor="middle">Toca "Tomar Foto"</text>
+</svg>
