@@ -1,0 +1,66 @@
+import {
+  Table,
+  Column,
+  Model,
+  DataType,
+  ForeignKey,
+  BelongsTo,
+  HasMany,
+} from "sequelize-typescript";
+import { Area } from "./Area";
+import { Usuario } from "./Usuario";
+import { Requisicion } from "./Requisicion";
+
+export enum EstadoSolicitud {
+  BORRADOR = "BORRADOR",
+  ENVIADA = "ENVIADA",
+  AUTORIZADA = "AUTORIZADA",
+  RECHAZADA = "RECHAZADA",
+}
+
+@Table({
+  tableName: "solicitudes",
+})
+export class Solicitud extends Model {
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+    unique: true,
+  })
+  declare folio: string;
+
+  @ForeignKey(() => Area)
+  @Column({
+    type: DataType.INTEGER,
+    allowNull: false,
+  })
+  declare areaId: number;
+
+  @BelongsTo(() => Area)
+  declare area: Area;
+
+  @ForeignKey(() => Usuario)
+  @Column({
+    type: DataType.INTEGER,
+    allowNull: false,
+  })
+  declare solicitanteId: number;
+
+  @BelongsTo(() => Usuario)
+  declare solicitante: Usuario;
+
+  @Column({
+    type: DataType.TEXT,
+    allowNull: false,
+  })
+  declare descripcionGeneral: string;
+
+  @Column({
+    type: DataType.ENUM(...Object.values(EstadoSolicitud)),
+    defaultValue: EstadoSolicitud.BORRADOR,
+  })
+  declare estado: EstadoSolicitud;
+
+  @HasMany(() => Requisicion)
+  declare requisiciones: Requisicion[];
+}
