@@ -7,6 +7,7 @@ import ordenPagoRoutes from "./routes/ordenPago.routes";
 import proveedorRoutes from "./routes/proveedor.routes";
 import partidaRoutes from "./routes/partidaPresupuestal.routes";
 import presupuestoRoutes from "./routes/presupuestoAnual.routes";
+import solicitudRoutes from "./routes/solicitud.routes";
 
 const server = express();
 
@@ -21,6 +22,7 @@ server.use("/api/ordenes-pago", ordenPagoRoutes);
 server.use("/api/proveedores", proveedorRoutes);
 server.use("/api/partidas", partidaRoutes);
 server.use("/api/presupuestos", presupuestoRoutes);
+server.use("/api/solicitudes", solicitudRoutes);
 
 
 export default server;
