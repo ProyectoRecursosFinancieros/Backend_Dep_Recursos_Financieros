@@ -9,7 +9,7 @@ router.use(authenticate);
 
 router.post(
   "/",
-  authorizeRoles("ADMIN", "FINANZAS"),
+  authorizeRoles("ADMIN", "PRESUPUESTO"),
   partidaController.crearPartida
 );
 
@@ -21,7 +21,7 @@ router.get("/:id", partidaController.obtenerPartidaPorId);
 
 router.patch(
   "/:id",
-  authorizeRoles("ADMIN", "FINANZAS"),
+  authorizeRoles("ADMIN", "PRESUPUESTO"),
   partidaController.actualizarPartida
 );
 

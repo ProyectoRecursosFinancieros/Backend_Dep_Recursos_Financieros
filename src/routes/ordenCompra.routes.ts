@@ -11,7 +11,7 @@ const router = Router();
 router.post(
   "/generar/:requisicionId",
   authenticate,
-  authorizeRoles("ADMIN", "MATERIALES", "PRESUPUESTO"),
+  authorizeRoles("ADMIN", "MATERIALES"),
   generarOrdenCompra,
 );
 

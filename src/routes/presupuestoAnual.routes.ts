@@ -9,7 +9,7 @@ router.use(authenticate);
 
 router.post(
   "/",
-  authorizeRoles("ADMIN", "FINANZAS"),
+  authorizeRoles("ADMIN", "PRESUPUESTO"),
   presupuestoController.crearPresupuesto
 );
 
@@ -21,7 +21,7 @@ router.get("/:id", presupuestoController.obtenerPresupuestoPorId);
 
 router.patch(
   "/:id",
-  authorizeRoles("ADMIN", "FINANZAS"),
+  authorizeRoles("ADMIN", "PRESUPUESTO"),
   presupuestoController.actualizarMontoAprobado
 );
 

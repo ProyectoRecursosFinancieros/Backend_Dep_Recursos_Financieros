@@ -1,17 +1,39 @@
 import { Router } from "express";
-import { autorizar, cancelar } from "../controllers/requisicion.controller";
+import {
+  autorizar,
+  cancelar,
+  crear,
+  listar,
+  obtenerPorId,
+} from "../controllers/requisicion.controller";
+
 import { authenticate } from "../middlewares/auth.middleware";
 import { authorizeRoles } from "../middlewares/authorize.middleware";
 
 const router = Router();
 
-router.patch(
-  "/:id/autorizar",
-  authenticate,
-  authorizeRoles("ADMIN", "PRESUPUESTO"),
-  autorizar,
+router.use(authenticate);
+
+router.get("/", listar);
+
+router.get("/:id", obtenerPorId);
+
+router.post(
+  "/",
+  authorizeRoles("ADMIN", "MATERIALES", "PLANEACION"),
+  crear
 );
 
-router.patch("/:id/cancelar", authenticate, authorizeRoles("ADMIN"), cancelar);
+router.patch(
+  "/:id/autorizar",
+  authorizeRoles("ADMIN", "PRESUPUESTO"),
+  autorizar
+);
+
+router.patch(
+  "/:id/cancelar",
+  authorizeRoles("ADMIN"),
+  cancelar
+);
 
 export default router;
