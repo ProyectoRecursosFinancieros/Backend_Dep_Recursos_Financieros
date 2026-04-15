@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { crearOrdenPago } from "../controllers/ordenPago.controller";
+import { crearOrdenPago, descargarPDF, listarOrdenesPago } from "../controllers/ordenPago.controller";
 import { authenticate } from "../middlewares/auth.middleware";
 import { authorizeRoles } from "../middlewares/authorize.middleware";
 
@@ -9,7 +9,21 @@ router.post(
   "/:ordenCompraId",
   authenticate,
   authorizeRoles("ADMIN", "PRESUPUESTO", "PLANEACION"),
-  crearOrdenPago,
+  crearOrdenPago
+);
+
+router.get(
+  "/",
+  authenticate,
+  authorizeRoles("ADMIN", "PRESUPUESTO", "PLANEACION", "MATERIALES"),
+  listarOrdenesPago
+);
+
+router.get(
+  "/:id/pdf",
+  authenticate,
+  authorizeRoles("ADMIN", "PRESUPUESTO", "PLANEACION", "MATERIALES"),
+  descargarPDF
 );
 
 export default router;

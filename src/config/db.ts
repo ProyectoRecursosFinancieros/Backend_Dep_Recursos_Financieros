@@ -11,7 +11,6 @@ import { RequisicionDetalle } from "../models/RequisicionDetalle";
 import { Proveedor } from "../models/Proveedor";
 import { OrdenPago } from "../models/OrdenPago";
 import { OrdenCompra } from "../models/OrdenCompra";
-import { MovimientoPresupuestal } from "../models/MovimientoPresupuestal";
 
 dotenv.config();
 
@@ -35,7 +34,6 @@ export const sequelize = new Sequelize(
       Proveedor,
       OrdenPago,
       OrdenCompra,
-      MovimientoPresupuestal,
     ],
   },
 );

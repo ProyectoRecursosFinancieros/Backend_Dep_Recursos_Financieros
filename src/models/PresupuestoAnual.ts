@@ -9,7 +9,6 @@ import {
 } from "sequelize-typescript";
 import { Area } from "./Area";
 import { PartidaPresupuestal } from "./PartidaPresupuestal";
-import { MovimientoPresupuestal } from "./MovimientoPresupuestal";
 
 @Table({
   tableName: "presupuestos_anuales",
@@ -52,7 +51,4 @@ export class PresupuestoAnual extends Model {
     defaultValue: 0,
   })
   declare montoEjercido: number;
-
-  @HasMany(() => MovimientoPresupuestal)
-  declare movimientos: MovimientoPresupuestal[];
 }

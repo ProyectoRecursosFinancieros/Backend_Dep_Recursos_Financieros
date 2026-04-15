@@ -50,10 +50,23 @@ export class Solicitud extends Model {
   declare solicitante: Usuario;
 
   @Column({
+    type: DataType.STRING(255),
+    allowNull: false,
+  })
+  declare concepto: string;
+
+  @Column({
     type: DataType.TEXT,
     allowNull: false,
   })
   declare descripcionGeneral: string;
+
+  @Column({
+    type: DataType.DECIMAL(15, 2),
+    allowNull: false,
+    defaultValue: 0,
+  })
+  declare monto: number;
 
   @Column({
     type: DataType.ENUM(...Object.values(EstadoSolicitud)),

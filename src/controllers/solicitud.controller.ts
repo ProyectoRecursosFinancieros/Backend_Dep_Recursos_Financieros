@@ -3,7 +3,7 @@ import * as solicitudService from "../services/solicitud.service";
 
 export const crearSolicitud = async (req: Request, res: Response) => {
   try {
-    const { areaId, descripcionGeneral } = req.body;
+    const { areaId, descripcionGeneral, concepto, monto } = req.body;
 
     if (!areaId || !descripcionGeneral) {
       return res.status(400).json({
@@ -17,6 +17,8 @@ export const crearSolicitud = async (req: Request, res: Response) => {
       areaId,
       descripcionGeneral,
       solicitanteId,
+      concepto,
+      monto
     });
 
     res.status(201).json(solicitud);
