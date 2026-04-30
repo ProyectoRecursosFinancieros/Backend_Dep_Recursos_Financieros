@@ -10,6 +10,7 @@ import { Usuario } from "../models/Usuario";
 import { Area } from "../models/Area";
 import { PartidaPresupuestal } from "../models/PartidaPresupuestal";
 
+<<<<<<< HEAD
 const normalize = (value: unknown) =>
   String(value ?? "")
     .trim()
@@ -102,11 +103,14 @@ const resolverPresupuesto = async (
   return await buscarPresupuestoPorEtiqueta(raw, transaction);
 };
 
+=======
+>>>>>>> b5e5bbf39d5a5ae50b88e6c49f0659594491b517
 export const crearRequisicion = async (data: any) => {
   const transaction = await sequelize.transaction();
   try {
     const solicitud = await Solicitud.findByPk(data.solicitudId, { transaction });
     if (!solicitud) throw new Error("Solicitud no encontrada");
+<<<<<<< HEAD
     if (solicitud.estado !== EstadoSolicitud.AUTORIZADA) {
       throw new Error("La solicitud debe estar AUTORIZADA");
     }
@@ -114,6 +118,16 @@ export const crearRequisicion = async (data: any) => {
     if (!data.detalles || data.detalles.length === 0) {
       throw new Error("La requisición debe tener al menos un detalle");
     }
+=======
+    if (solicitud.estado !== EstadoSolicitud.AUTORIZADA) throw new Error("La solicitud debe estar AUTORIZADA");
+
+    const mesActual = new Date().getMonth() + 1;
+    if (data.mes && (data.mes < mesActual || data.mes > 12)) {
+      throw new Error("El mes de la requisición no es válido según el periodo actual");
+    }
+
+    if (!data.detalles || data.detalles.length === 0) throw new Error("La requisición debe tener al menos un detalle");
+>>>>>>> b5e5bbf39d5a5ae50b88e6c49f0659594491b517
 
     let total = 0;
     const detallesProcesados = data.detalles.map((d: any) => {
@@ -122,6 +136,7 @@ export const crearRequisicion = async (data: any) => {
       const retenciones = Number(d.retenciones || 0);
       const totalLinea = subtotal + impuestos - retenciones;
       total += totalLinea;
+<<<<<<< HEAD
 
       return {
         ...d,
@@ -163,6 +178,20 @@ export const crearRequisicion = async (data: any) => {
     const detallesConId = detallesProcesados.map((d: any) => ({
       ...d,
       requisicionId: requisicion.id,
+=======
+      return { ...d, subtotal, impuestos, retenciones };
+    });
+
+    const requisicion = await Requisicion.create({
+      solicitudId: data.solicitudId,
+      presupuestoId: data.presupuestoId,
+      total
+    }, { transaction });
+
+    const detallesConId = detallesProcesados.map((d: any) => ({
+      ...d,
+      requisicionId: requisicion.id
+>>>>>>> b5e5bbf39d5a5ae50b88e6c49f0659594491b517
     }));
 
     await RequisicionDetalle.bulkCreate(detallesConId, { transaction });
@@ -201,6 +230,7 @@ export const autorizarRequisicion = async (
 
     if (disponible < requerido) {
       throw new Error(
+<<<<<<< HEAD
         `Saldo insuficiente. Disponible: $${disponible.toLocaleString(
           "es-MX"
         )} | Requerido: $${requerido.toLocaleString("es-MX")}`
@@ -208,6 +238,13 @@ export const autorizarRequisicion = async (
     }
 
     presupuesto.montoEjercido = Number(presupuesto.montoEjercido) + requerido;
+=======
+        `Saldo insuficiente en el presupuesto. Disponible: $${disponible.toLocaleString('es-MX')} | Requerido: $${requerido.toLocaleString('es-MX')}`
+      );
+    }
+
+    presupuesto.montoEjercido += requerido;
+>>>>>>> b5e5bbf39d5a5ae50b88e6c49f0659594491b517
     await presupuesto.save({ transaction });
 
     requisicion.estado = EstadoRequisicion.AUTORIZADA;
@@ -237,6 +274,7 @@ export const cancelarRequisicion = async (
       transaction,
       lock: transaction.LOCK.UPDATE,
     });
+<<<<<<< HEAD
 
     if (!requisicion) throw new Error("Requisición no encontrada");
 
@@ -264,8 +302,23 @@ export const cancelarRequisicion = async (
     requisicion.canceladoPorId = usuarioId;
     requisicion.observaciones = observaciones.trim();
 
+=======
+    if (!requisicion) {
+      throw new Error("Requisición no encontrada");
+    }
+    if (requisicion.estado !== EstadoRequisicion.AUTORIZADA) {
+      throw new Error("Solo se pueden cancelar requisiciones autorizadas");
+    }
+    if (!requisicion.presupuesto) {
+      throw new Error("Presupuesto no asociado");
+    }
+    const presupuesto = requisicion.presupuesto;
+    presupuesto.montoEjercido =
+      Number(presupuesto.montoEjercido) - Number(requisicion.total);
+    await presupuesto.save({ transaction });
+    requisicion.estado = EstadoRequisicion.CANCELADA;
+>>>>>>> b5e5bbf39d5a5ae50b88e6c49f0659594491b517
     await requisicion.save({ transaction });
-
     await transaction.commit();
     return requisicion;
   } catch (error) {
@@ -280,8 +333,11 @@ export const obtenerRequisiciones = async () => {
       { model: Solicitud },
       { model: PresupuestoAnual },
       { model: RequisicionDetalle },
+<<<<<<< HEAD
       { model: Usuario, as: "autorizadoPor", include: [{ model: Area, attributes: ["nombre"] }] },
       { model: Usuario, as: "canceladoPor", include: [{ model: Area, attributes: ["nombre"] }] },
+=======
+>>>>>>> b5e5bbf39d5a5ae50b88e6c49f0659594491b517
     ],
     order: [["createdAt", "DESC"]],
   });
@@ -293,6 +349,7 @@ export const obtenerRequisicionPorId = async (id: number) => {
       { model: Solicitud },
       { model: PresupuestoAnual },
       { model: RequisicionDetalle },
+<<<<<<< HEAD
       { model: Usuario, as: "autorizadoPor", include: [{ model: Area }] },
       { model: Usuario, as: "canceladoPor", include: [{ model: Area }] },
     ],
@@ -539,4 +596,12 @@ export const generarPDFRequisicion = async (
   });
 
   doc.end();
+=======
+    ],
+  });
+  if (!requisicion) {
+    throw new Error("Requisición no encontrada");
+  }
+  return requisicion;
+>>>>>>> b5e5bbf39d5a5ae50b88e6c49f0659594491b517
 };

@@ -48,4 +48,8 @@ export class PresupuestoAnual extends Model {
 
   @Column({ type: DataType.DECIMAL(15, 2), defaultValue: 0 })
   declare montoEjercido: number;
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> b5e5bbf39d5a5ae50b88e6c49f0659594491b517
