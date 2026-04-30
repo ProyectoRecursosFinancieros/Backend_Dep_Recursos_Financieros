@@ -55,6 +55,13 @@ export class Requisicion extends Model {
   })
   declare estado: EstadoRequisicion;
 
+  // === NUEVO: OBSERVACIONES ===
+  @Column({
+    type: DataType.TEXT,
+    allowNull: true,
+  })
+  declare observaciones?: string;
+
   @ForeignKey(() => Usuario)
   @Column({
     type: DataType.INTEGER,
@@ -76,4 +83,14 @@ export class Requisicion extends Model {
 
   @HasMany(() => OrdenCompra)
   declare ordenesCompra: OrdenCompra[];
+
+  @ForeignKey(() => Usuario)
+  @Column({
+    type: DataType.INTEGER,
+    allowNull: true,
+  })
+  declare canceladoPorId?: number;
+
+  @BelongsTo(() => Usuario, "canceladoPorId")
+  declare canceladoPor?: Usuario;
 }

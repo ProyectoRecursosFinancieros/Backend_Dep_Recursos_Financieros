@@ -1,14 +1,13 @@
 import { Request, Response } from "express";
 import * as solicitudService from "../services/solicitud.service";
+import { AuthRequest } from "../middlewares/auth.middleware";
 
 export const crearSolicitud = async (req: Request, res: Response) => {
   try {
-    const { areaId, descripcionGeneral } = req.body;
+    const { areaId, descripcionGeneral, concepto, monto } = req.body;
 
     if (!areaId || !descripcionGeneral) {
-      return res.status(400).json({
-        message: "areaId y descripcionGeneral son obligatorios",
-      });
+      return res.status(400).json({ message: "areaId y descripcionGeneral son obligatorios" });
     }
 
     const solicitanteId = (req as any).user.id;
@@ -17,13 +16,13 @@ export const crearSolicitud = async (req: Request, res: Response) => {
       areaId,
       descripcionGeneral,
       solicitanteId,
+      concepto,
+      monto
     });
 
     res.status(201).json(solicitud);
   } catch (error: any) {
-    res.status(500).json({
-      message: error.message,
-    });
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -39,55 +38,49 @@ export const obtenerSolicitudes = async (_req: Request, res: Response) => {
 export const obtenerSolicitudPorId = async (req: Request, res: Response) => {
   try {
     const id = Number(req.params.id);
-
     const solicitud = await solicitudService.obtenerSolicitudPorId(id);
-
     res.json(solicitud);
   } catch (error: any) {
-    res.status(404).json({
-      message: error.message,
-    });
+    res.status(404).json({ message: error.message });
   }
 };
 
 export const enviarSolicitud = async (req: Request, res: Response) => {
   try {
     const id = Number(req.params.id);
-
     const solicitud = await solicitudService.enviarSolicitud(id);
-
     res.json(solicitud);
   } catch (error: any) {
-    res.status(400).json({
-      message: error.message,
-    });
+    res.status(400).json({ message: error.message });
   }
 };
 
-export const autorizarSolicitud = async (req: Request, res: Response) => {
+export const autorizarSolicitud = async (req: AuthRequest, res: Response) => {
   try {
     const id = Number(req.params.id);
+    const usuarioId = req.user!.id;
+    const { observaciones } = req.body;
 
-    const solicitud = await solicitudService.autorizarSolicitud(id);
-
+    const solicitud = await solicitudService.autorizarSolicitud(id, usuarioId, observaciones);
     res.json(solicitud);
   } catch (error: any) {
-    res.status(400).json({
-      message: error.message,
-    });
+    res.status(400).json({ message: error.message });
   }
 };
 
-export const rechazarSolicitud = async (req: Request, res: Response) => {
+export const rechazarSolicitud = async (req: AuthRequest, res: Response) => {
   try {
     const id = Number(req.params.id);
+    const usuarioId = req.user!.id;
+    const { observaciones } = req.body;
 
-    const solicitud = await solicitudService.rechazarSolicitud(id);
+    if (!observaciones?.trim()) {
+      return res.status(400).json({ message: "Las observaciones son obligatorias" });
+    }
 
+    const solicitud = await solicitudService.rechazarSolicitud(id, usuarioId, observaciones);
     res.json(solicitud);
   } catch (error: any) {
-    res.status(400).json({
-      message: error.message,
-    });
+    res.status(400).json({ message: error.message });
   }
 };

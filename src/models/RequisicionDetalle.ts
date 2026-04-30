@@ -57,4 +57,23 @@ export class RequisicionDetalle extends Model {
     defaultValue: 0,
   })
   declare retenciones: number;
+
+  // === CAMPOS NUEVOS PARA EL FORMATO OFICIAL ===
+  @Column({
+    type: DataType.STRING(50),
+    allowNull: true,
+  })
+  declare unidadMedida: string;           // Ej: "SERVICIO", "PIEZA", "KG", etc.
+
+  @Column({
+    type: DataType.STRING(100),
+    allowNull: true,
+  })
+  declare clavePresupuestal: string;      // Clave presupuestal completa
+
+  @Column({
+    type: DataType.STRING(100),
+    allowNull: true,
+  })
+  declare fuenteFinanciamiento: string;   // Ej: "Ingresos Propios"
 }

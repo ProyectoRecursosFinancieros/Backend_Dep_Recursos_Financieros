@@ -36,9 +36,12 @@ export const obtenerPresupuestos = async (_req: Request, res: Response) => {
 export const obtenerPresupuestoPorId = async (req: Request, res: Response) => {
   try {
     const id = Number(req.params.id);
+    // ✅ Validación crucial para evitar "NaN" en la consulta SQL
+    if (isNaN(id)) {
+      return res.status(400).json({ message: "El ID proporcionado no es válido" });
+    }
 
     const presupuesto = await presupuestoService.obtenerPresupuestoPorId(id);
-
     res.json(presupuesto);
   } catch (error: any) {
     res.status(404).json({ message: error.message });
@@ -48,9 +51,12 @@ export const obtenerPresupuestoPorId = async (req: Request, res: Response) => {
 export const obtenerPresupuestosPorArea = async (req: Request, res: Response) => {
   try {
     const areaId = Number(req.params.areaId);
+    // ✅ Validación adicional
+    if (isNaN(areaId)) {
+      return res.status(400).json({ message: "El ID del área no es válido" });
+    }
 
     const presupuestos = await presupuestoService.obtenerPresupuestosPorArea(areaId);
-
     res.json(presupuestos);
   } catch (error: any) {
     res.status(500).json({ message: error.message });
@@ -60,6 +66,11 @@ export const obtenerPresupuestosPorArea = async (req: Request, res: Response) =>
 export const actualizarMontoAprobado = async (req: Request, res: Response) => {
   try {
     const id = Number(req.params.id);
+    // ✅ Validación adicional
+    if (isNaN(id)) {
+      return res.status(400).json({ message: "El ID del presupuesto no es válido" });
+    }
+
     const { montoAprobado } = req.body;
 
     const presupuesto = await presupuestoService.actualizarMontoAprobado(

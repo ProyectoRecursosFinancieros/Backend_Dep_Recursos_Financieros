@@ -54,4 +54,11 @@ export class Usuario extends Model {
 
   @BelongsTo(() => Area)
   declare area: Area;
+
+  // ←←← CAMPO NUEVO (esto era lo que faltaba)
+  @Column({
+    type: DataType.BOOLEAN,
+    defaultValue: true,
+  })
+  declare activo: boolean;
 }
